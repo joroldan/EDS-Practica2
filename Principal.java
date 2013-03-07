@@ -41,11 +41,11 @@ public class Principal
 		Partida p = new Partida(i,j);
 		p.crearFichas();
 		p.turnoInicial();
-		while(p.buscarGanador()==null)
+		while(!p.hayGanador())
 		{
 			p.avanzarTurno();
 			p.realizarJugada();
 		}
-		System.out.println("El ganador es: " + p.buscarGanador());
+		p.imprimirGanadores();
 	}
 }

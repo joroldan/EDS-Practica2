@@ -101,4 +101,9 @@ public abstract class Jugador
 			if (listaFichas.get(j).esDoble(max)) m.colocaFicha(listaFichas.remove(j),0);
 		}
 	}
+
+	public String toString()
+	{
+		return nombre + " - Fichas: " + numFichas();
+	}
 }

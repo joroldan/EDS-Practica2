@@ -25,11 +25,11 @@ class Partida
 		this.jug = new Jugador[numJugadores];
 		for (int i=0;i<numMaquina; i++)
 		{
-			this.jug[i] = new JugadorMaquina("");
+			this.jug[i] = new JugadorMaquina(i+"/Maquina");
 		}
 		for (int i=numMaquina; i<numJugadores; i++)
 		{
-			this.jug[i] = new JugadorHumano("");
+			this.jug[i] = new JugadorHumano(i+"/Humano");
 		}
 	}
 
@@ -93,22 +93,14 @@ class Partida
 		}
 	}
 
-	public Jugador buscarGanador()
+	public boolean hayGanador()
 	{
 		//System.out.println("El jugador " + turno + " le quedan " + this.jug[turno].numFichas() + " fichas.");
 		/*if((this.jug[turno].numFichas()==0)||(pasando==numJugadores))
 		{
 			return turno;
 		}*/
-		if (this.jug[turno].numFichas()==0)
-		{
-			return this.jug[turno];
-		}
-		else if (pasando==numJugadores)
-		{
-			throw new JugadaInvalida("Nadie mas puede colocar fichas.");
-		}
-		return null;
+		return ((this.jug[turno].numFichas()==0)||(pasando==numJugadores));
 	}
 
 	public void avanzarTurno()
@@ -142,5 +134,27 @@ class Partida
 		System.out.println("Es el turno de: " + turno);
 		this.jug[turno].ponerFichaMayor(m);
 		*/
+	}
+
+	public void imprimirGanadores()
+	{
+		if(hayGanador())
+		{
+			for(int i=0, j=0;j<numJugadores;i++)
+			{
+				for (Jugador ju: jug)
+				{
+					if (ju.numFichas()==i)
+					{
+						j++;
+						System.out.println(j+"º - " + ju);
+					}
+				}
+			}
+		}
+		else
+		{
+			System.out.println("Aún no hay un ganador");
+		}
 	}
 }

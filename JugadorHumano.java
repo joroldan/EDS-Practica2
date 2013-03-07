@@ -23,18 +23,22 @@ class JugadorHumano extends Jugador
 		System.out.println("Los extremos para colocar son: " + m.extremoIzq() + " y " + m.extremoDcha());
 		System.out.println("Tienes las siguientes fichas:");
 		this.mostrarFichas();
-		System.out.println("Elige una de las fichas:");
+		System.out.println("\n\nElige una de las fichas:");
 		Scanner scan = new Scanner(System.in);
 		do
 		{
 			elegida = scan.nextInt();
-			donde=m.posibilidades(this.listaFichas.get(elegida));
+			if ((0<=elegida)&&(elegida<this.numFichas()))
+			{
+				donde=m.posibilidades(this.listaFichas.get(elegida));
+			}
+			else donde=-1;
 				// -1 no se puede colocar, se vuelve a pedir ficha
 				//  0 a izquierda
 				//  1 a derecha
 				//  2 cualquiera, se pregunta
 		}
-		while (((0>elegida)||(elegida>this.numFichas())||donde==-1));
+		while (donde==-1);
 		if (donde==2)
 		{
 			System.out.println("Elige lado para colocar: 0 a izquierda, 1 a derecha");
@@ -45,6 +49,6 @@ class JugadorHumano extends Jugador
 			while ((0!=lado)&&(1!=lado));
 			m.colocaFicha(listaFichas.remove(elegida),lado);
 		}
-		else m.colocaFicha(listaFichas.remove(elegida),0);
+		else m.colocaFicha(listaFichas.remove(elegida),donde);
 	}
 }
