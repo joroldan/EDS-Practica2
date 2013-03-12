@@ -22,7 +22,6 @@ public class Mesa
 
 	public void addMonRobar(Ficha f)
 	{
-		//System.out.println("Colocada " + f + " al monton de robar.");
 		this.montonRobar.apilar(f);
 	}
 	
@@ -90,6 +89,7 @@ public class Mesa
 	{ 
 		//devuelve -1 si no se puede colocar en nigun extremo
 		//0 a la izquierda, 1 a la derecha, 2 en cualquier lado
+		if (vacioMonColocadas()) return 0;
 		int i=-1;
 		if (f.estaNumero(extremoIzq()))  i=0;
 		if (f.estaNumero(extremoDcha()))
@@ -97,7 +97,6 @@ public class Mesa
 			if (i==0) i=2;
 			else i=1;
 		}
-		//System.out.println("Las posibilidades son " + i);
 		return i;
 	}
 	

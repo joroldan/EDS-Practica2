@@ -14,7 +14,7 @@ class JugadorMaquina extends Jugador
 		super(s);
 	}
 
-	public void ponerFicha(Mesa m)
+	public Ficha getFicha(Mesa m)
 	{
 		int i=0;
 		boolean fin=false;
@@ -23,9 +23,13 @@ class JugadorMaquina extends Jugador
 			if (m.posibilidades(this.listaFichas.get(i))!=-1) fin=true;
 			else i++;
 		}
-		Ficha f = this.listaFichas.remove(i);
+		return this.listaFichas.remove(i);
+	}
+
+	public int ladoFicha(Mesa m, Ficha f)
+	{
 		System.out.println("La ficha " + f + " se puede colocar en: " + m.posibilidades(f));
-		if (m.posibilidades(f)==1) m.colocaFicha(f,1); //Si solo se puede colocar en la derecha va ahi
-		else m.colocaFicha(f,0); //Si se puede colocar a amabos lados, se coloca a izquierda.
+		if (m.posibilidades(f)==1) return 1; //Si solo se puede colocar en la derecha va ahi
+		else return 0; //Si se puede colocar a amabos lados, se coloca a izquier
 	}
 }

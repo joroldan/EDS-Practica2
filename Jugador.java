@@ -23,7 +23,6 @@ public abstract class Jugador
 
 	public void recibirFicha(Ficha f)
 	{
-		//System.out.println("Recibiendo la ficha " + f);
 		boolean noAdd = true;
 		int i = 0, lenght = this.numFichas();
 		while ((i<lenght)&&(noAdd))
@@ -36,11 +35,9 @@ public abstract class Jugador
 			else i++;
 		}
 		if (noAdd) this.listaFichas.add(f);
-		//System.out.println("Ahora las fichas que tenemos son: ");
-		//mostrarFichas();
 	}
 
-	public abstract void ponerFicha(Mesa m);
+	public abstract Ficha getFicha(Mesa m);
 
 	public void mostrarFichas()
 	{
@@ -65,16 +62,9 @@ public abstract class Jugador
 			puede = (listaFichas.get(c).estaNumero(i)||listaFichas.get(c).estaNumero(d));
 			c++;
 		}
-		//System.out.println("Puede colocar? " + puede);
 		return puede;
 	}
-	/*
-	public void ponerFichaMayor(Mesa m)
-	{
-		System.out.println("La ficha mayor es " + listaFichas.get(0));
-		m.colocaFicha(listaFichas.remove(0),0);
-	}
-	*/
+	
 	public int maxDoble()
 	{
 		int i=6, j=0;
@@ -92,18 +82,21 @@ public abstract class Jugador
 		return -1;
 	}
 
-	public void ponerDobleMayor(Mesa m)
+	public Ficha ponerDobleMayor()
 	{
 		int max = maxDoble();
-		//System.out.println("La doble mayor es " + max);
 		for (int j=0; j<numFichas(); j++)
 		{
-			if (listaFichas.get(j).esDoble(max)) m.colocaFicha(listaFichas.remove(j),0);
+			if (listaFichas.get(j).esDoble(max))
+				return listaFichas.remove(j);
 		}
+		return null;
 	}
 
 	public String toString()
 	{
 		return nombre + " - Fichas: " + numFichas();
 	}
+
+	public abstract int ladoFicha(Mesa m, Ficha f);
 }

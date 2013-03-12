@@ -21,7 +21,8 @@ class Partida
 	{
 		this.m = new Mesa();
 		this.numJugadores = numMaquina+numHumano;
-		this.pasando=0;
+		this.pasando=0; //pasando almacena el numero de jugadores que han pasado sin poder robar de manera consecutiva
+		//si alcanza el numero de jugadores es que nadie mas va a poder colocar y por tanto acaba la partida
 		this.jug = new Jugador[numJugadores];
 		for (int i=0;i<numMaquina; i++)
 		{
@@ -45,7 +46,6 @@ class Partida
 			}
 		}
  		//ahora se barajan
-
 		Random generador = new Random();
 		int n1,n2;
 		Ficha aux;
@@ -71,20 +71,22 @@ class Partida
 		}
 	}
 
-
 	public void realizarJugada()
 	{
 		System.out.println("\n\n\nComienza otra jugada");
 		if(this.jug[turno].puedeColocar(m))
 		{
 			System.out.println("Coloco ficha");
-			this.jug[turno].ponerFicha(m);
+			Ficha f  = this.jug[turno].getFicha(m);
+			int lado = this.jug[turno].ladoFicha(m,f);
+			m.colocaFicha(f,lado);
 			pasando=0;
 		}
 		else if (!m.vacioMonRobar())
 		{
 			System.out.println("Robo");
 			this.jug[turno].recibirFicha(m.robar());
+			pasando=0;
 		}
 		else
 		{
@@ -95,11 +97,6 @@ class Partida
 
 	public boolean hayGanador()
 	{
-		//System.out.println("El jugador " + turno + " le quedan " + this.jug[turno].numFichas() + " fichas.");
-		/*if((this.jug[turno].numFichas()==0)||(pasando==numJugadores))
-		{
-			return turno;
-		}*/
 		return ((this.jug[turno].numFichas()==0)||(pasando==numJugadores));
 	}
 
@@ -107,7 +104,6 @@ class Partida
 	{
 		m.mostrarFichasColocadas();
 		this.turno = (this.turno+1)%numJugadores;
-		//System.out.println("El turno pasa a : " + turno);
 	}
 
 	public void turnoInicial()
@@ -125,15 +121,10 @@ class Partida
 		//Ya tenemos quien tiene la mayor doble, luego asignamos:
 		turno = maxJ;
 		System.out.println("Es el turno de: " + turno);
-		this.jug[turno].ponerDobleMayor(m);
-		
-		//Metodo viejo
-		/*
-		Random generador = new Random();
-		turno= generador.nextInt(numJugadores);
-		System.out.println("Es el turno de: " + turno);
-		this.jug[turno].ponerFichaMayor(m);
-		*/
+		Ficha f  = this.jug[turno].ponerDobleMayor();
+		int lado = this.jug[turno].ladoFicha(m, f);
+		m.colocaFicha(f,lado);
+
 	}
 
 	public void imprimirGanadores()
@@ -154,7 +145,7 @@ class Partida
 		}
 		else
 		{
-			System.out.println("Aún no hay un ganador");
+			System.out.println("Aun no hay un ganador");
 		}
 	}
 }
